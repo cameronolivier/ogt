@@ -15,14 +15,14 @@ try {
   if (!config.externalPath) {
     throw new Error(`No external path provided. Please provide the path to your iCloud docs. See https://github.com/cameronolivier/ogt for more information`);
   }
-  
+
   const currentDir = process.cwd();
 
   // Create and checkout a new git branch
   execSync(`git checkout -b ${config.branchName}`);
 
   // Copy all files from the iCloud drive Obsidian folder to the iDriveVault directory
-  execSync(`cp -R ${config.vaultPath}/* ${config.externalPath}/*`);
+  execSync(`cp -R "${config.vaultPath}/" "${config.externalPath}/*"`);
 
   // Stage and commit the changes
   execSync('git add .');
@@ -45,6 +45,7 @@ try {
   //Cleanup
   // Delete the temporary branch
   try {
+    execSync(`git checkout main`);
     execSync(`git branch -D ${config.branchName}`);
   }
   catch (e) {
