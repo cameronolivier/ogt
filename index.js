@@ -9,6 +9,13 @@ const config = require('rc')('obsidian-git-tools', {
 })
 
 try {
+  if (!config.vaultPath) {
+    throw new Error(`No vault path provided. Please provide the path to your vault docs. See https://github.com/cameronolivier/ogt for more information`);
+  }
+  if (!config.externalPath) {
+    throw new Error(`No external path provided. Please provide the path to your iCloud docs. See https://github.com/cameronolivier/ogt for more information`);
+  }
+
   // Create and checkout a new git branch
   execSync(`git checkout -b ${config.branchName}`);
 
@@ -29,10 +36,10 @@ try {
   execSync('git checkout main');
 
   // Merge the new branch into the main branch, overwriting any changes
-  execSync(`git merge -X theirs ${config.config.branchName}`);
+  execSync(`git merge -X theirs ${config.branchName}`);
 
   // Delete the temporary branch
-  execSync(`git branch -D ${config.config.branchName}`);
+  execSync(`git branch -D ${config.branchName}`);
 
   // Push the changes to the remote repository
   execSync('git push');
@@ -41,5 +48,5 @@ try {
   console.error(`Error: ${error.message}`);
   //Cleanup
   // Delete the temporary branch
-  execSync(`git branch -D ${config.config.branchName}`);
+  execSync(`git branch -D ${config.branchName}`);
 }
