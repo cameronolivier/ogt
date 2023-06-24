@@ -19,11 +19,14 @@ try {
   // Create and checkout a new git branch
   execSync(`git checkout -b ${config.branchName}`);
 
-  // Navigate to the iDriveVault directory
+  // Navigate to the iCloud vault directory
   process.chdir(config.externalPath);
 
-  // Copy all files from the source path to the iDriveVault directory
+  // Copy all files from the iCloud drive Obsidian folder to the iDriveVault directory
   execSync(`cp -R ${config.vaultPath}/* .`);
+
+  // Navigate to the iDriveVault directory
+  process.chdir(config.externalPath);
 
   // Go back to the root directory (parent of iDriveVault)
   process.chdir('..');
