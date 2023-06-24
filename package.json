@@ -7,10 +7,10 @@
     "init": "chmod +x index.js && npm link"
   },
   "bin": {
-    "ogt": "index.js",
+    "ogt": "index.js"
   },
   "author": "cameron olivier",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "dependencies": {
     "rc": "^1.2.8"
   }
