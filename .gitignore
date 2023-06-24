@@ -1,0 +1,4 @@
+.obsidian-git-toolsrc
+.idea
+.DS_Store
+node_modules/
