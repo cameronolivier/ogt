@@ -48,5 +48,10 @@ try {
   console.error(`Error: ${error.message}`);
   //Cleanup
   // Delete the temporary branch
-  execSync(`git branch -D ${config.branchName}`);
+  try {
+    execSync(`git branch -D ${config.branchName}`);
+  }
+  catch (e) {
+    console.error(`could not remove ${config.branchName}. It probably does not exist.`)
+  }
 }
