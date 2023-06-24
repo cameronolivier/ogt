@@ -6,7 +6,7 @@ Tools for working with Obsidian and Git, mostly managing syncing and merging acr
 ```shell
 npm install -g ogt
 ```
-2. Create an `.obsidian-git-toolsrc`file in your home directory with the following contents:
+2. Create an `.ogtrc`file in your home directory with the following contents:
 ```
 {
   "externalPath": the file directory for your device(iCloud) vault,
@@ -21,7 +21,7 @@ npm install -g ogt
 ## How to dev:
 1. Clone this repo
 2. Run `npm run init` to make the cli script executable and add the `ogt` command to your path (via `npm link`).
-3. Create an `.obsidian-git-toolsrc`file in your home directory with the following contents:
+3. Create an `.ogtrc`file in your home directory with the following contents:
 ```
 {
   "externalPath": the file directory for your device(iCloud) vault,

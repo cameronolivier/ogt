@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { execSync } = require('node:child_process');
-const config = require('rc')('obsidian-git-tools', {
+const config = require('rc')('ogt', {
   externalPath: null,
   vaultPath: null,
   message: 'Updating iDrive Vault Docs',
@@ -52,6 +52,6 @@ try {
     execSync(`git branch -D ${config.branchName}`);
   }
   catch (e) {
-    console.error(`could not remove ${config.branchName}. It probably does not exist.`)
+    console.error(`Could not remove branch '${config.branchName}'. It probably does not exist.`)
   }
 }
