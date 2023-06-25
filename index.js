@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 const { execSync } = require('node:child_process');
+const messageFallback = 'Updating iDrive Vault Docs';
 const config = require('rc')('ogt', {
   externalPath: null,
   vaultPath: null,
-  message: 'Updating iDrive Vault Docs',
+  message: messageFallback,
   branchName: 'icloud_docs_merge',
 })
 
@@ -26,7 +27,7 @@ try {
 
   // Stage and commit the changes
   execSync('git add .');
-  execSync(`git commit -m "${config.commitMessage}"`);
+  execSync(`git commit -m "${config.commitMessage || messageFallback}"`);
 
   // Checkout the main branch
   execSync('git checkout main');

@@ -1,6 +1,6 @@
 {
   "name": "ogt",
-  "version": "0.1.12",
+  "version": "0.2.0",
   "description": "Tools for managing Obsidian vaults syncing in a github repo",
   "main": "index.js",
   "scripts": {
