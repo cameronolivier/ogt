@@ -7,23 +7,33 @@ const config = require('rc')('ogt', {
   vaultPath: null,
   message: messageFallback,
   branchName: 'icloud_docs_merge',
-  log: false,
+  verbose: false,
 })
 
-const logger = (active) => (...args) => {
-  return {
-    info: () => {
+const logger = (active) =>  {
+  return ({
+    info: (...args) => {
       if (active) {
         console.log(...args);
       }
+    },
+    error: (...args) => {
+      console.error(...args);
     }
-    error: () => {
-        console.error(...args);
-    }
-  }
+  })
 }
 
-const log = logger(config.log);
+const log = logger(config.verbose);
+
+const cleanup = () => {
+  try {
+    execSync(`git checkout main`);
+    execSync(`git branch -D ${config.branchName}`);
+  }
+  catch (e) {
+    log.error(`Could not remove branch '${config.branchName}'. It probably does not exist.`)
+  }
+}
 
 
 try {
@@ -65,6 +75,7 @@ try {
   execSync('git add .');
 } catch (error) {
   log.error(`Error: ${error.message}`);
+  cleanup();
   log.error(`Exiting...`);
   process.exit(1);
 }
@@ -76,6 +87,7 @@ try {
   log.info('-----------------------------------');
 } catch (error) {
   log.error(`Error: ${error.message}`);
+  cleanup();
   log.error(`Exiting...`);
   process.exit(1);
 }
@@ -104,13 +116,5 @@ try {
   log.info('Script completed successfully.');
 } catch (error) {
   log.error(`Error: ${error.message}`);
-  //Cleanup
-  // Delete the temporary branch
-  try {
-    execSync(`git checkout main`);
-    execSync(`git branch -D ${config.branchName}`);
-  }
-  catch (e) {
-    log.error(`Could not remove branch '${config.branchName}'. It probably does not exist.`)
-  }
+  cleanup();
 }
