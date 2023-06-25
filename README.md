@@ -13,7 +13,7 @@ npm install -g @cameronolivier/ogt
 ## How to dev:
 1. Clone this repo
 2. Run `npm run init`. This makes the cli script executable and adds the `ogt` command to your path (via `npm link`).
-3. Create an `.ogtrc`file in your home directory
+3. Create an `.ogtrc`file in your home directory.
 
 ## Creating an `.ogtrc` file
 Create an `.ogtrc` file in your home directory with the following contents:
