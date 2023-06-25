@@ -7,7 +7,24 @@ const config = require('rc')('ogt', {
   vaultPath: null,
   message: messageFallback,
   branchName: 'icloud_docs_merge',
+  log: false,
 })
+
+const logger = (active) => (...args) => {
+  return {
+    info: () => {
+      if (active) {
+        console.log(...args);
+      }
+    }
+    error: () => {
+        console.error(...args);
+    }
+  }
+}
+
+const log = logger(config.log);
+
 
 try {
   if (!config.vaultPath) {
@@ -17,52 +34,76 @@ try {
     throw new Error(`No external path provided. Please provide the path to your iCloud docs. See https://github.com/cameronolivier/ogt for more information`);
   }
 
+  log.info(config);
   const currentDir = process.cwd();
 
   // Create and checkout a new git branch
-  console.log(`Running: git checkout -b ${config.branchName}`)
+  log.info(`Running: git checkout -b ${config.branchName}`)
   execSync(`git checkout -b ${config.branchName}`);
-  console.log('Branch created successfully.');
-  console.log('-----------------------------------');
+  log.info('Branch created successfully.');
+  log.info('-----------------------------------');
 
   // Copy all files from the iCloud drive Obsidian folder to the iDriveVault directory
-  console.log(`Running: cp -R "${config.vaultPath}/" "${config.externalPath}/*"`)
-  execSync(`cp -R "${config.vaultPath}/" "${config.externalPath}/*"`);
-  console.log('Files copied successfully.')
-  console.log('-----------------------------------');
+  const sourceDir = `"${config.externalPath}/."`;
+  const destinationDir = `"${config.vaultPath}"`;
+  const copyCommand = `cp -R ${sourceDir} ${destinationDir}`;
+
+  log.info(`Running: ${copyCommand}`);
+  execSync(copyCommand, (error, stdout, stderr) => {
+    if (error) {
+      log.error(`exec error: ${error}`);
+      return;
+    }
+    log.info(`stdout: ${stdout}`);
+    log.error(`stderr: ${stderr}`);
+  });
+  log.info('Files copied successfully.');
+  log.info('-----------------------------------');
 
   // Stage and commit the changes
-  console.log(`Running: git add .`)
+  log.info(`Running: git add .`)
   execSync('git add .');
-  console.log(`Running: git commit -m "${config.commitMessage || messageFallback}"`)
-  execSync(`git commit -a -m "${config.commitMessage || messageFallback}"`);
-  console.log('Changes committed successfully.');
-  console.log('-----------------------------------');
-
+} catch (error) {
+  log.error(`Error: ${error.message}`);
+  log.error(`Exiting...`);
+  process.exit(1);
+}
+try {
+  const commitCommand = `git commit -a -m "${config.commitMessage || messageFallback}"`
+  log.info(`Running: ${commitCommand}`);
+  execSync(commitCommand);
+  log.info('Changes committed successfully.');
+  log.info('-----------------------------------');
+} catch (error) {
+  log.error(`Error: ${error.message}`);
+  log.error(`Exiting...`);
+  process.exit(1);
+}
+try {
   // Checkout the main branch
-  console.log('Running: git checkout main');
+  log.info('Running: git checkout main');
   execSync('git checkout main');
-  console.log('Checked out main branch successfully.');
-  console.log('-----------------------------------');
+  log.info('Checked out main branch successfully.');
+  log.info('-----------------------------------');
 
   // Merge the new branch into the main branch, overwriting any changes
-  console.log(`Running: git merge -X theirs ${config.branchName}`);
+  log.info(`Running: git merge -X theirs ${config.branchName}`);
   execSync(`git merge -X theirs ${config.branchName}`);
-  console.log('Branch merged successfully.')
-  console.log('-----------------------------------');
+  log.info('Branch merged successfully.')
+  log.info('-----------------------------------');
 
   // Delete the temporary branch
-  console.log(`Running: git branch -D ${config.branchName}`);
+  log.info(`Running: git branch -D ${config.branchName}`);
   execSync(`git branch -D ${config.branchName}`);
-  console.log('Branch deleted successfully.');
-  console.log('-----------------------------------');
+  log.info('Branch deleted successfully.');
+  log.info('-----------------------------------');
 
   // Push the changes to the remote repository
-  console.log('Running: git push');
+  log.info('Running: git push');
   execSync('git push');
-  console.log('Script completed successfully.');
+  log.info('Script completed successfully.');
 } catch (error) {
-  console.error(`Error: ${error.message}`);
+  log.error(`Error: ${error.message}`);
   //Cleanup
   // Delete the temporary branch
   try {
@@ -70,6 +111,6 @@ try {
     execSync(`git branch -D ${config.branchName}`);
   }
   catch (e) {
-    console.error(`Could not remove branch '${config.branchName}'. It probably does not exist.`)
+    log.error(`Could not remove branch '${config.branchName}'. It probably does not exist.`)
   }
 }
