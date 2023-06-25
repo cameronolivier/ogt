@@ -23,33 +23,39 @@ try {
   console.log(`Running: git checkout -b ${config.branchName}`)
   execSync(`git checkout -b ${config.branchName}`);
   console.log('Branch created successfully.');
+  console.log('-----------------------------------');
 
   // Copy all files from the iCloud drive Obsidian folder to the iDriveVault directory
   console.log(`Running: cp -R "${config.vaultPath}/" "${config.externalPath}/*"`)
   execSync(`cp -R "${config.vaultPath}/" "${config.externalPath}/*"`);
   console.log('Files copied successfully.')
+  console.log('-----------------------------------');
 
   // Stage and commit the changes
   console.log(`Running: git add .`)
   execSync('git add .');
   console.log(`Running: git commit -m "${config.commitMessage || messageFallback}"`)
-  execSync(`git commit -m "${config.commitMessage || messageFallback}"`);
+  execSync(`git commit -a -m "${config.commitMessage || messageFallback}"`);
   console.log('Changes committed successfully.');
+  console.log('-----------------------------------');
 
   // Checkout the main branch
   console.log('Running: git checkout main');
   execSync('git checkout main');
   console.log('Checked out main branch successfully.');
+  console.log('-----------------------------------');
 
   // Merge the new branch into the main branch, overwriting any changes
   console.log(`Running: git merge -X theirs ${config.branchName}`);
   execSync(`git merge -X theirs ${config.branchName}`);
   console.log('Branch merged successfully.')
+  console.log('-----------------------------------');
 
   // Delete the temporary branch
   console.log(`Running: git branch -D ${config.branchName}`);
   execSync(`git branch -D ${config.branchName}`);
   console.log('Branch deleted successfully.');
+  console.log('-----------------------------------');
 
   // Push the changes to the remote repository
   console.log('Running: git push');
