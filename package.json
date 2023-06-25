@@ -1,6 +1,6 @@
 {
   "name": "@cameronolivier/ogt",
-  "version": "0.2.17",
+  "version": "0.2.19",
   "description": "Tools for managing Obsidian vaults syncing in a Github repo",
   "main": "index.js",
   "scripts": {
