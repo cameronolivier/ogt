@@ -1,6 +1,6 @@
 {
   "name": "@cameronolivier/ogt",
-  "version": "0.2.19",
+  "version": "0.0.0-development",
   "description": "Tools for managing Obsidian vaults syncing in a git-based repo",
   "main": "index.js",
   "keywords": [
@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "_git:commit": "npx --no -- commitlint --edit ${1}",
-    "init": "chmod +x index.js && npm link"
+    "init": "chmod +x index.js && npm link",
+    "semantic-release": "semantic-release"
   },
   "bin": {
     "ogt": "index.js"
@@ -22,7 +23,7 @@
   "homepage": "https://github.com/cameronolivier/ogt#readme",
   "repository": {
     "type": "git",
-    "url": "github:cameronolivier/ogt"
+    "url": "https://github.com/cameronolivier/ogt"
   },
   "dependencies": {
     "rc": "^1.2.8"
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "semantic-release": "^21.0.5"
   }
 }
