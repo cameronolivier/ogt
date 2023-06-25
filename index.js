@@ -43,7 +43,9 @@ try {
   if (!config.externalPath) {
     throw new Error(`No external path provided. Please provide the path to your iCloud docs. See https://github.com/cameronolivier/ogt for more information`);
   }
-
+  log.info(`Cam's Obsidian Git Tools`);
+  log.info('Syncing iCloud Obsidian docs to Git Vault docs...');
+  log.info(`Configuration from "${config.config}":`);
   log.info(config);
   const currentDir = process.cwd();
 
