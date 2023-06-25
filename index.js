@@ -1,7 +1,15 @@
 #!/usr/bin/env node
 
 const { execSync } = require("node:child_process");
-const { messageFallback } = require("./constants");
+const { logger } = require("./logger");
+const {
+  cleanupOnError,
+  init,
+  logConfig,
+  createBranch,
+  copyFiles,
+  addAndCommitChanges,
+} = require("./utils");
 
 const config = require("rc")("ogt", {
   externalPath: null,
@@ -11,75 +19,20 @@ const config = require("rc")("ogt", {
   verbose: false,
 });
 
-const logger = (active) => {
-  return {
-    info: (...args) => {
-      if (active) {
-        console.log(...args);
-      }
-    },
-    error: (...args) => {
-      console.error(...args);
-    },
-  };
-};
-
 const log = logger(config.verbose);
-
-const cleanup = () => {
-  try {
-    execSync(`git checkout main`);
-    execSync(`git branch -D ${config.branchName}`);
-  } catch (e) {
-    log.error(
-      `Could not remove branch '${config.branchName}'. It probably does not exist.`
-    );
-  }
-};
+const cleanup = cleanupOnError(config.branchName);
+const currentDir = process.cwd();
 
 try {
-  if (!config.vaultPath) {
-    throw new Error(
-      `No vault path provided. Please provide the path to your vault docs. See https://github.com/cameronolivier/ogt for more information`
-    );
-  }
-  if (!config.externalPath) {
-    throw new Error(
-      `No external path provided. Please provide the path to your iCloud docs. See https://github.com/cameronolivier/ogt for more information`
-    );
-  }
+  init(config.vaultPath, config.externalPath);
+
   log.info(`Cam's Obsidian Git Tools`);
   log.info("Syncing iCloud Obsidian docs to Git Vault docs...");
-  log.info(`Configuration from "${config.config}":`);
-  log.info(config);
-  const currentDir = process.cwd();
 
-  // Create and checkout a new git branch
-  log.info(`Running: git checkout -b ${config.branchName}`);
-  execSync(`git checkout -b ${config.branchName}`);
-  log.info("Branch created successfully.");
-  log.info("-----------------------------------");
-
-  // Copy all files from the iCloud drive Obsidian folder to the iDriveVault directory
-  const sourceDir = `"${config.externalPath}/."`;
-  const destinationDir = `"${config.vaultPath}"`;
-  const copyCommand = `cp -R ${sourceDir} ${destinationDir}`;
-
-  log.info(`Running: ${copyCommand}`);
-  execSync(copyCommand, (error, stdout, stderr) => {
-    if (error) {
-      log.error(`exec error: ${error}`);
-      return;
-    }
-    log.info(`stdout: ${stdout}`);
-    log.error(`stderr: ${stderr}`);
-  });
-  log.info("Files copied successfully.");
-  log.info("-----------------------------------");
-
-  // Stage and commit the changes
-  log.info(`Running: git add .`);
-  execSync("git add .");
+  logConfig(config);
+  createBranch(config.branchName);
+  copyFiles(config.externalPath, config.vaultPath);
+  addAndCommitChanges(config.message);
 } catch (error) {
   log.error(`Error: ${error.message}`);
   cleanup();
