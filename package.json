@@ -1,6 +1,6 @@
 {
   "name": "@cameronolivier/ogt",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "Tools for managing Obsidian vaults syncing in a github repo",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
   },
   "author": "cameron olivier",
   "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/cameronolivier/ogt#readme",
   "dependencies": {
     "rc": "^1.2.8"
   },
