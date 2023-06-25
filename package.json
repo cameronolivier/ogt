@@ -12,6 +12,8 @@
   ],
   "scripts": {
     "_git:commit": "npx --no -- commitlint --edit ${1}",
+    "_git:pre-commit": "npx --no -- lint-staged",
+    "prettier:fix": "prettier --write .",
     "init": "chmod +x index.js && npm link",
     "semantic-release": "semantic-release"
   },
@@ -37,6 +39,7 @@
     "@semantic-release/npm": "^10.0.4",
     "@semantic-release/release-notes-generator": "^11.0.3",
     "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
     "semantic-release": "^21.0.5"
   }
