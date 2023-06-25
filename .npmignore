@@ -2,3 +2,10 @@
 .DS_Store
 node_modules/
 .ogtrc
+.github
+.husky
+.lintstagedrc
+.prettierignore
+.prettierrc
+.releaserc
+commitlint.config.js
