@@ -16,7 +16,7 @@ npm install -g @cameronolivier/ogt
 3. Create an `.ogtrc`file in your home directory
 
 ## Creating an `.ogtrc` file
-Create an `.ogtrc`file in your home directory with the following contents:
+Create an `.ogtrc` file in your home directory with the following contents:
 ```
 {
   "externalPath": the file directory for your device(iCloud) vault,
