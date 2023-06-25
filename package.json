@@ -1,6 +1,6 @@
 {
   "name": "@cameronolivier/ogt",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "Tools for managing Obsidian vaults syncing in a git-based repo",
   "main": "index.js",
   "keywords": [
