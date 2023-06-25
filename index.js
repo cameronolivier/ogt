@@ -82,7 +82,7 @@ try {
   process.exit(1);
 }
 try {
-  const commitCommand = `git commit -a -m "${config.commitMessage || messageFallback}"`
+  const commitCommand = `git commit -a -m "${config.message || messageFallback}"`
   log.info(`Running: ${commitCommand}`);
   execSync(commitCommand);
   log.info('Changes committed successfully.');

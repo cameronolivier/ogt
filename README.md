@@ -4,7 +4,7 @@ Tools for working with Obsidian and Git, mostly managing syncing and merging acr
 ## How to make this work:
 1. install the package
 ```shell
-npm install -g ogt
+npm install -g @cameronolivier/ogt
 ```
 2. Create an `.ogtrc`file in your home directory with the following contents:
 ```
@@ -12,7 +12,8 @@ npm install -g ogt
   "externalPath": the file directory for your device(iCloud) vault,
   "vaultPath": where you store your docs vault that sinks to git,
   "message": The commit message, defaults to: 'Updating iDrive Vault Docs',
-  "branchName": The branch name, defaults to "icloud_docs_merge"
+  "branchName": The branch name, defaults to "icloud_docs_merge",
+  "verbose": true or false, defaults to false for whether to log out progress to the console.
 }
 ```
 3. In your docs folder (where you have the git repo for syncing), run `ogt` to sync your iCloud vault with your 
