@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 const { execSync } = require('node:child_process');
-const messageFallback = 'Updating iDrive Vault Docs';
+const { messageFallback } = require('./constants');
+
 const config = require('rc')('ogt', {
   externalPath: null,
   vaultPath: null,
